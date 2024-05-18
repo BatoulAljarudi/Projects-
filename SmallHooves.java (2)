@@ -1,0 +1,404 @@
+package com.mycompany.smallhooves;
+import java.util.Scanner;
+
+class PetQueue {
+    
+    class Node {
+        private int PetID;
+        private String Type, PetName, OwnerName, srvice;
+        Node next;
+
+        public Node(int PetID, String Type, String PetName, String OwnerName, String srvice,  Node next) {
+            this.PetID = PetID;
+            this.Type=Type;
+            this.PetName = PetName;
+            this.OwnerName = OwnerName;
+            this.next = next;
+            this.srvice=srvice;
+        }
+
+        public int getPetID() {
+            return PetID;
+        }
+
+        public String getPetName() {
+            return PetName;
+        }
+
+        public String getOwnerName() {
+            return OwnerName;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public String getType() {
+            return Type;
+        }
+
+        public String getSrvice() {
+            return srvice;
+        }
+        
+        
+
+        public void setPetID(int PetID) {
+            this.PetID = PetID;
+        }
+
+        public void setPetName(String PetName) {
+            this.PetName = PetName;
+        }
+
+        public void setOwnerName(String OwnerName) {
+            this.OwnerName = OwnerName;
+        }
+
+        public void setType(String Type) {
+            this.Type = Type;
+        }
+
+        public void setSrvice(String srvice) {
+            this.srvice = srvice;
+        }
+        
+    }
+    
+    Node front = null;
+    Node rear = null;
+    int count = 0;
+    
+    boolean isEmpty() {
+    return (count == 0);}
+    
+    void AddPet(int PetID, String Type, String PetName, String OwnerName, String srvice) {
+    Node newNode = new Node(PetID, Type, PetName, OwnerName, srvice, null);
+    if (isEmpty()){
+    front = rear = newNode;} 
+    
+    else {
+    rear.next = newNode;
+    rear = newNode;
+    }
+    newNode.next = front;
+    count++;
+    }
+    
+    void AddSrvice(int key){
+        if (isEmpty()) {
+    System.out.println("There is no pet's data yat");
+    return;
+    }
+        Node current = front;
+        boolean flag=false;
+        
+        do {
+            if (current.getPetID()== key) {
+                System.out.println("Srvices: \n ---------------------------------------"
+                        + "\n Vaccination \n Deworming \n Consultation \n Laboratory,X-ray \n Ophthalmology \n Trimming \n Dentistry"
+                        + "---------------------------------------");
+                Scanner input=new Scanner(System.in);
+                System.out.print("choise: ");
+                current.setSrvice(input.next());
+                
+                System.out.println("\n Srvice Added successfuly");  
+                flag=true;
+                break;
+            }
+            current = current.getNext();
+        }while (current != front);
+        
+        if(flag==false) System.out.println("Pet data not found " );
+    }
+    
+    void UpdatePet(int key){
+        if (isEmpty()) {
+    System.out.println("There is no pet's data yat");
+    return;}
+        Node current = front;
+        boolean flag=false;
+        
+        do {
+            if (current.getPetID()== key) {
+                System.out.println("Enter the Pet's data:");
+                Scanner input=new Scanner(System.in);
+                System.out.print("Type: ");
+                current.setType(input.next());
+                
+                System.out.print("Pet name: ");
+                current.setPetName(input.next());
+                
+                System.out.print("Woner name: ");
+                current.setOwnerName(input.next());
+                
+                System.out.println("\n Pet's data Updata successfuly");  
+                flag=true;
+                break;
+            }
+            current = current.getNext();
+        }while (current != front);
+        
+        if(flag==false) System.out.println("Pet data not found " );
+    }
+    
+        void Search(int key) {
+            
+        if (isEmpty()) {
+            System.out.println("There is no pet's data yat");
+            return;}
+        
+        Node current = front;
+        boolean flag=false;
+        
+        do {
+            if (current.getPetID()== key) {
+                
+                flag=true;
+                break;
+            }
+            current = current.getNext();
+        }while (current != front);
+        
+        if(flag)
+            System.out.println("Pet data is Found");
+        else
+            System.out.println("Pet data not found " );
+    }
+
+    
+   void DeleteLastPet() {
+    if (isEmpty()) {
+    System.out.println("There is no pet's data yat");
+    } else {
+    front = front.next;
+    rear.next = front;
+    count--; }
+    } 
+    
+    void DeleteSpecific(int key) { 
+        if (isEmpty()) {
+            System.out.println("There is no pet's data yat");
+            return;}  
+  
+        if(front.getPetID()==key)
+        {
+            DeleteLastPet();
+            return;
+        }
+        
+        Node current = front;
+        Node prev = front;
+        
+        while (current.getPetID()!= key) {
+            if (current.next == front) {
+                System.out.println("\nNot found...");
+                return;
+            }
+            prev = current;
+            current = current.next;
+        }
+        
+
+        prev.next = current.next;
+        count--;
+        System.out.println("\n Pet data deleted successfuly");
+    }
+
+    
+    void displayAll() {
+        if (isEmpty()) {
+    System.out.println("There is no pet's data yat");
+    return;}
+    Node current = front;
+    do {
+    System.out.println("ID: "+current.PetID+"\n Pet name: "+current.PetName);
+    current = current.next;}
+    while (current != front);
+    }
+    
+    void displayPet(int key) {  
+        if (isEmpty()) {
+            System.out.println("There is no pet's data yat");
+            return;}
+        
+        Node current = front;
+        boolean flag=false;
+        
+        do {
+            if (current.getPetID()== key) {
+                System.out.println("\n ID: "+current.PetID+"\n type: "+current.Type+"\n Pet name: "+current.PetName
+                        +"\n Owner Name:"+current.OwnerName+"\n Pet Service:"+current.srvice+"\n\n");
+                
+                flag=true;
+                break;
+            }
+            current = current.getNext();
+        }while (current != front);
+        
+        if(flag==false) System.out.println("Pet data not found " );
+    }
+    
+    String GetSrviceFromPet(int id){
+        if (isEmpty()) {
+    System.out.println("There is no pet's data yat");
+    return"";}
+       Node current = front;
+        do {
+            if (current.getPetID()== id) {
+                return current.getSrvice();
+            }
+            current = current.getNext();
+        }while (current != front);
+        return "";
+}}
+ 
+public class SmallHooves {
+    
+    static  PetQueue PetList = new PetQueue();
+        
+    public static void main(String[] args) {
+        
+        System.out.println("---------Welcome to the small hooves system--------");
+        char complete;
+        int countID=1;
+        do{
+        menu();
+        System.out.print("do you want to do soething else? (Yes/No): ");       
+        Scanner input=new Scanner(System.in);
+        complete =input.next().charAt(0);
+        }while(complete=='y' || complete=='Y');
+
+    }
+    
+        
+    public static void menu(){
+        int service;
+        System.out.println("-----------------Choose the service----------------");
+        System.out.println(" 1-Add new pet \n 2-Add service to pet \n 3-Delete pet data \n 4-Update pet data \n 5-View all pets \n 6-Search for a pet \n 7-View a pet data");
+        System.out.println("---------------- Number of services ---------------");
+        System.out.print("Enter youer choise:");
+        Scanner input=new Scanner(System.in);
+        service =input.nextInt();
+        
+        switch(service){
+            case 1:
+                int newID;
+                String Type, Pname, WonerName,srvice;
+                newID=(PetList.count)+1;
+                System.out.println("Enter the Pet's data: \n ID: "+newID);
+                System.out.print("Type: ");
+                Type=input.next();
+                System.out.print("Pet name: ");
+                Pname=input.next();
+                System.out.print("Woner name: ");
+                WonerName=input.next();
+                System.out.print("srvice: ");
+                srvice=input.next();
+                
+                PetList.AddPet(newID, Type, Pname, WonerName,srvice);
+                System.out.println("\n Pet's data Added successfuly\n"); 
+                
+                Invoice(srvice, PetList, newID);
+                
+                System.out.println("\n Viset for one time?\n");
+                char Viset=input.next().charAt(0);
+                if (Viset=='y' || Viset=='Y') PetList.DeleteLastPet();
+                break;
+            
+            case 2:
+                System.out.print("Enter the ID: ");
+                int id=input.nextInt();
+                
+                PetList.AddSrvice(id);
+                Invoice(PetList.GetSrviceFromPet(id), PetList, id);
+
+                break;
+                
+            case 3:
+                System.out.print("Enter the ID: ");
+                id=input.nextInt();
+                
+                PetList.DeleteSpecific(id);
+                break;
+            
+            case 4:
+                System.out.print("Enter the ID: ");
+                id=input.nextInt();
+                
+                PetList.UpdatePet(id);
+                break;
+              
+            case 5:
+                PetList.displayAll();
+                break;
+            
+            case 6:
+                System.out.print("Enter the ID: ");
+                id=input.nextInt();
+                
+                PetList.Search(id);
+                break;
+                
+           case 7:
+                System.out.print("\n Enter the ID:");
+                id=input.nextInt();
+                
+                PetList.displayPet(id);
+                break;
+            
+            default:
+                System.out.println("incorrect number...");
+        }
+    }
+    
+    static void Invoice(String srvice, PetQueue Pets, int PetID){
+        
+        System.out.println("\n\n\nInvoice");
+        switch (srvice){
+            case "Vaccination":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 250 \n ---------------------------------------");
+                break;
+                
+            case "Deworming":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 150 \n ---------------------------------------");
+                break;
+                
+            case "Consultation":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 75 \n ---------------------------------------");
+                break;
+                
+            case "Laboratory":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 250 \n ---------------------------------------");
+                break;
+                
+            case "X-ray":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 265 \n ---------------------------------------");
+                break;
+                
+            case "Ophthalmology":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 300 \n ---------------------------------------");
+                break;
+                
+            case "Trimming":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 150 \n ---------------------------------------");
+                break;
+                
+            case "Dentistry":
+                Pets.displayPet(PetID);
+                System.out.println("--------------------------------------- \n price: 300 \n ---------------------------------------");
+                break;
+                
+            default:
+                System.out.println("we don't has this srvice...");
+        }
+        
+    }
+}
